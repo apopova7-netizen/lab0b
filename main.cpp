@@ -1,10 +1,11 @@
 #include <iostream>
 #include <fstream> //  для работы с файлами
-#include <list>
+#include <list> // для работы с двусвязным списком (в него считываем предложения)
 #include <string>
-#include <map>
-#include <cctype>
-
+#include <map> // для словаря с подсчетом слов
+#include <cctype> // для того, чтобы отделить цифры и буквы от остальных символов
+#include <algorithm>
+#include <vector>
 int main(int argc, char** argv) {
 
        if (argc != 3) {
@@ -21,14 +22,15 @@ int main(int argc, char** argv) {
               return 1;
        }
 
-       std::list<std::string> lines; //указываем тип данных, которые будут храниться внутри этого контейнера
+       std::list<std::string> lines; //указываем тип данных, которые будут храниться внутри этого контейнера (двусвязного списка)
        std::string curLine;
 
        while (std::getline(inputFile, curLine)) {
               lines.push_back(curLine);
        }
 
-       std::map<std::string, int> wordsCounter; //Создаем счетчик под слова
+       std::map<std::string, int> wordsCounter; //Создаем счетчик под слова в виде словаря
+       int totalWordsCounter = 0;
 
        for (const std::string& line : lines) { //поочередно считываем строки
 
@@ -36,35 +38,44 @@ int main(int argc, char** argv) {
               for (int i = 0; i < line.length(); i++) {// посимвольно считываем текущую строку
 
 
-                     char c = line[i];
+                     unsigned char c = line[i];
 
                      if (std::isalnum(c))
-                            curWord += std::tolower(static_cast<unsigned char>(c)); // прикол с русскими буквами или другими символами уменьшаем символы в маленькие буквы.
+                            curWord += static_cast<char>(std::tolower(c));
 
                      else
                             if (!curWord.empty()) {
 
                                    wordsCounter[curWord]++;
                                    curWord = "";
+                                   totalWordsCounter++;
                             }
               }
 
               if (!curWord.empty()) {
                      wordsCounter[curWord]++;
+                     totalWordsCounter++;
               }
 
 
        }
+
+       std::vector<std::pair<std::string, int>> sortedWordsByCount(wordsCounter.begin(), wordsCounter.end());
+       std::sort(sortedWordsByCount.begin(), sortedWordsByCount.end(), [](const auto&a, const auto&b ){
+
+              if (a.second > b.second)
+                     return a.second > b.second;
+              return a.first < b.first;
+       });
 
        // тут чтение и какие-то действия
 
 
        inputFile.close();
 
-
-
-
-
+       for (const std::pair<std::string, int>& pair : sortedWordsByCount) {
+              std::cout << pair.first << " " << pair.second << "\n";
+       }
 
        std::ofstream outputFile(outputFilePath);
        if (!outputFile.is_open()) {
