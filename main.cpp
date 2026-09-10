@@ -4,8 +4,8 @@
 #include <string>
 #include <map> // для словаря с подсчетом слов
 #include <cctype> // для того, чтобы отделить цифры и буквы от остальных символов
-#include <algorithm>
-#include <vector>
+
+
 int main(int argc, char** argv) {
 
        if (argc != 3) {
@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 
        for (const std::string& line : lines) { //поочередно считываем строки
 
-              std::string curWord = "";
+              std::string curWord;
               for (int i = 0; i < line.length(); i++) {// посимвольно считываем текущую строку
 
 
@@ -60,22 +60,18 @@ int main(int argc, char** argv) {
 
        }
 
-       std::vector<std::pair<std::string, int>> sortedWordsByCount(wordsCounter.begin(), wordsCounter.end());
-       std::sort(sortedWordsByCount.begin(), sortedWordsByCount.end(), [](const auto&a, const auto&b ){
-
-              if (a.second > b.second)
+       std::list<std::pair<std::string, int>> wordsSortedByCount(wordsCounter.begin(), wordsCounter.end());
+       wordsSortedByCount.sort([](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
+              if (a.second != b.second)
                      return a.second > b.second;
               return a.first < b.first;
+
+
        });
-
-       // тут чтение и какие-то действия
-
 
        inputFile.close();
 
-       for (const std::pair<std::string, int>& pair : sortedWordsByCount) {
-              std::cout << pair.first << " " << pair.second << "\n";
-       }
+
 
        std::ofstream outputFile(outputFilePath);
        if (!outputFile.is_open()) {
@@ -83,17 +79,17 @@ int main(int argc, char** argv) {
               return 1;
        }
 
-       // запись в файл
+       outputFile << "Word;Frequency;Frequency(%)" << std::endl;
+       for (const std::pair<std::string, int>& pair : wordsSortedByCount) {
+
+              double percentage = static_cast<double>(pair.second) / totalWordsCounter * 100.0;
+              outputFile << pair.first << ";" << pair.second << ";" << percentage << std::endl;
+
+       }
+
+
 
        outputFile.close();
-
-
-
-
-
-
-
-
 
        return 0;
 }
