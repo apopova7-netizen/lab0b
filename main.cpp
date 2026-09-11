@@ -4,7 +4,7 @@
 int main(int argc, char **argv) {
 
        if (argc != 3) {
-              std::cout << "Error. Wrong arguments. Use: word_count.exe <input.txt> <output.txt> \n";
+              std::cout << "Error. Wrong arguments. Use: word_count.exe <input.txt> <output.csv> \n";
               return 1;
        }
 
