@@ -81,8 +81,3 @@ int main(int argc, char **argv) {
        outputFile.close();
        return 0;
 }
-
-       outputFile.close();
-
-       return 0;
-}
