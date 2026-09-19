@@ -2,7 +2,7 @@
 #include <algorithm>
 
 
-int WriteResultsToFile(const std::string& outputFilePath, const std::list<std::pair<std::string, int>>& wordsSortedByCount, int totalWordsCnt) {
+int WriteResultsToFile(const std::string& outputFilePath, const std::list<std::pair<std::string, int>>& wordsSortedByCount, const int totalWordsCnt) {
 
     std::ofstream outputFile(outputFilePath);
     if (!outputFile.is_open())
@@ -13,7 +13,7 @@ int WriteResultsToFile(const std::string& outputFilePath, const std::list<std::p
 
         double percentage = static_cast<double>(pair.second) / totalWordsCnt * 100.0;
         std::string percentageStr = std::to_string(percentage);
-        std::replace(percentageStr.begin(), percentageStr.end(), '.', ',');
+        std::ranges::replace(percentageStr, '.', ',');
         outputFile << pair.first << ";" << pair.second << ";" << percentageStr << std::endl;
 
     }

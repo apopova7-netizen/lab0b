@@ -1,7 +1,6 @@
 #include "word_count.h"
-#include <algorithm>
 
-void SortWordsByCount(std::map<std::string, int>& countedWords,std::list<std::pair<std::string, int>>& wordsSortedByCount) {
+void SortWordsByCount(const std::map<std::string, int>& countedWords,  std::list<std::pair<std::string, int>>& wordsSortedByCount) {
 
     wordsSortedByCount.assign(countedWords.begin(),countedWords.end());
     wordsSortedByCount.sort([](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {

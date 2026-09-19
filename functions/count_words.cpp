@@ -9,7 +9,7 @@ void CountWords(const std::list<std::string>& lines, std::map<std::string, int>&
         for (const char c: line) {
 
             if (std::isalnum(static_cast<unsigned char>(c)))
-                curWord += static_cast<char>(std::tolower(c));
+                curWord += static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
 
             else
                 if (!curWord.empty()) {
