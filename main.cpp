@@ -20,11 +20,11 @@ int main(int argc, char **argv) {
        std::list<std::string> lines;
        ReadLinesFromFile(inputFile, lines);
 
-       int totalWordsCnt = 0;
        std::map<std::string, int> countedWords;
+       int totalWordsCnt = 0;
        CountWords(lines,countedWords,totalWordsCnt);
        if (totalWordsCnt == 0) {
-              std::cout << "The input file does not contain any words." << std::endl;
+              std::cout << "The input file doesn't contain any words." << std::endl;
               inputFile.close();
               return 0;
        }
